@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Logo } from "./logo";
 import { localized } from "@/lib/content";
 import type { Locale, SiteData } from "@/lib/types";
 
@@ -23,10 +23,10 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const [animateDesktopItems, setAnimateDesktopItems] = useState(false);
   const [mobileIndicatorReady, setMobileIndicatorReady] = useState(false);
+  const [navWidth, setNavWidth] = useState<number | null>(null);
   const localeNavKey = "#locale";
   const otherLocaleHref = locale === "en" ? "/pl" : "/";
   const basePath = localePath[locale];
-  const logoSrc = scrolled ? data.settings.logoDark : data.settings.logoLight;
 
   useLayoutEffect(() => {
     const nav = navRef.current;
@@ -42,14 +42,13 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
 
       const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
-      // Publish the row's natural width so the desktop nav can collapse/expand
-      // to an exact pixel value (no dead-time, no clipping). scrollWidth stays
-      // correct even while the element is clipped to width:0.
+      // Publish the row's natural width (via React state, so it survives
+      // re-renders) so the desktop nav can collapse/expand to an exact pixel
+      // value — no dead-time, no clipping. scrollWidth stays correct even while
+      // the row is clipped to width:0.
       if (!isMobile) {
-        const naturalWidth = `${navEl.scrollWidth}px`;
-        if (navEl.style.getPropertyValue("--nav-natural-width") !== naturalWidth) {
-          navEl.style.setProperty("--nav-natural-width", naturalWidth);
-        }
+        const measured = navEl.scrollWidth;
+        setNavWidth((prev) => (prev === measured ? prev : measured));
       }
 
       // Always measure the position so it never goes stale — visibility is
@@ -94,7 +93,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
       return;
     }
 
-    const timer = window.setTimeout(() => setMobileIndicatorReady(true), 420);
+    const timer = window.setTimeout(() => setMobileIndicatorReady(true), 400);
     return () => window.clearTimeout(timer);
   }, [menuOpen]);
 
@@ -175,38 +174,14 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
       <div className="relative mx-auto h-14 max-w-[1664px]">
         <Link
           href={localePath[locale] || "/"}
-          className="group absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center gap-3"
+          className="group absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center"
           aria-label="Rose Medical home"
         >
-          {logoSrc ? (
-            <span className="relative block h-10 w-[176px]">
-              <Image
-                src={logoSrc}
-                alt="Rose Medical"
-                fill
-                sizes="176px"
-                className="object-contain object-left"
-                priority
-              />
-            </span>
-          ) : (
-            <>
-              <span
-                className={`relative flex h-9 w-9 items-center justify-center rounded-full text-[13px] font-semibold tracking-[-0.08em] transition duration-300 ${
-                  scrolled ? "bg-emerald-950/8 text-emerald-950" : "bg-white/12 text-white"
-                }`}
-              >
-                RM
-              </span>
-              <span
-                className={`text-[21px] font-semibold tracking-[-0.03em] transition duration-300 ${
-                  scrolled ? "text-emerald-950" : "text-white"
-                }`}
-              >
-                Rose Medical
-              </span>
-            </>
-          )}
+          <Logo
+            className="h-7 w-auto transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:scale-[1.02] sm:h-8"
+            markClassName={`transition-colors duration-300 ${scrolled ? "text-accent" : "text-[#F8F1E7]"}`}
+            wordClassName={`transition-colors duration-300 ${scrolled ? "text-brand-ink" : "text-[#F8F1E7]"}`}
+          />
         </Link>
 
         <div
@@ -214,7 +189,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
           data-animate-items={animateDesktopItems}
           className={`site-nav-shell absolute right-0 top-0 z-20 flex h-14 w-[110px] origin-top-right flex-col overflow-hidden rounded-[28px] p-2 text-sm backdrop-blur-md md:h-auto md:w-fit md:rounded-full md:items-center ${
             scrolled
-              ? "bg-white/82 text-emerald-950 shadow-[0_18px_60px_rgba(6,63,57,0.12)] ring-1 ring-emerald-950/10"
+              ? "bg-white/82 text-brand-ink shadow-[0_18px_60px_rgba(10,178,172,0.12)] ring-1 ring-brand-ink/10"
               : "bg-[rgba(64,64,64,0.46)] text-white ring-1 ring-white/12"
           }`}
         >
@@ -227,11 +202,12 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
                 "--nav-indicator-y": `${indicator.top}px`,
                 "--nav-indicator-width": `${indicator.width}px`,
                 "--nav-indicator-height": `${indicator.height}px`,
+                ...(navWidth != null ? { "--nav-natural-width": `${navWidth}px` } : {}),
               } as CSSProperties
             }
             className={`site-nav-items grid w-full gap-1 overflow-hidden p-0 md:static md:flex md:flex-none md:gap-0 md:rounded-none ${
               scrolled
-                ? "text-emerald-950"
+                ? "text-brand-ink"
                 : "text-white"
             }`}
             onMouseLeave={handleNavLeave}

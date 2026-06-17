@@ -32,6 +32,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const [brand, data] = await Promise.all([getBrand(slug), getSiteData()]);
-  if (!brand) notFound();
+  if (!brand || brand.comingSoon) notFound();
   return <BrandPage brand={brand} data={data} locale="pl" />;
 }

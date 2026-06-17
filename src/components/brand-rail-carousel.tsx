@@ -136,10 +136,7 @@ export function BrandRailCarousel({ brands, locale }: { brands: Brand[]; locale:
                   onClick={() => goTo(active - 1)}
                   disabled={slides.length <= 1}
                 >
-                  <span className="masked-arrow axis-x-reverse size-5" aria-hidden>
-                    <ArrowLeft className="arrow-one h-5 w-5" />
-                    <ArrowLeft className="arrow-two h-5 w-5" />
-                  </span>
+                  <ArrowLeft className="h-5 w-5" aria-hidden />
                 </button>
                 <button
                   type="button"
@@ -148,10 +145,7 @@ export function BrandRailCarousel({ brands, locale }: { brands: Brand[]; locale:
                   onClick={() => goTo(active + 1)}
                   disabled={slides.length <= 1}
                 >
-                  <span className="masked-arrow axis-x size-5" aria-hidden>
-                    <ArrowRight className="arrow-one h-5 w-5" />
-                    <ArrowRight className="arrow-two h-5 w-5" />
-                  </span>
+                  <ArrowRight className="h-5 w-5" aria-hidden />
                 </button>
               </div>
             </div>
@@ -168,10 +162,7 @@ export function BrandRailCarousel({ brands, locale }: { brands: Brand[]; locale:
                   aria-label={locale === "en" ? "Previous brand" : "Poprzednia marka"}
                   onClick={() => goTo(active - 1)}
                 >
-                  <span className="masked-arrow axis-x-reverse" aria-hidden>
-                    <ArrowLeft className="arrow-one h-4 w-4" />
-                    <ArrowLeft className="arrow-two h-4 w-4" />
-                  </span>
+                  <ArrowLeft className="h-4 w-4" aria-hidden />
                 </button>
                 <button
                   type="button"
@@ -179,10 +170,7 @@ export function BrandRailCarousel({ brands, locale }: { brands: Brand[]; locale:
                   aria-label={locale === "en" ? "Next brand" : "Nastepna marka"}
                   onClick={() => goTo(active + 1)}
                 >
-                  <span className="masked-arrow axis-x" aria-hidden>
-                    <ArrowRight className="arrow-one h-4 w-4" />
-                    <ArrowRight className="arrow-two h-4 w-4" />
-                  </span>
+                  <ArrowRight className="h-4 w-4" aria-hidden />
                 </button>
               </div>
             </div>
@@ -207,6 +195,37 @@ function BrandCarouselCard({
   const router = useRouter();
   const href = `${brandPath[locale]}/${brand.slug}`;
   const tone = index % 3 === 0 ? "bg-[#f2ece2]" : index % 3 === 1 ? "bg-[#084f47]" : "bg-[#20211f]";
+  const comingSoonLabel = locale === "en" ? "Coming soon" : "Wkrotce";
+
+  if (brand.comingSoon) {
+    return (
+      <article
+        ref={refCallback}
+        className="brand-carousel-card group shrink-0 outline-none"
+        aria-label={`${brand.name} — ${comingSoonLabel}`}
+      >
+        <div className={`relative aspect-[3/4] overflow-hidden ${tone}`}>
+          <Image
+            src={brand.image}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 86vw, (max-width: 1280px) 42vw, 31vw"
+            className="object-contain p-4 opacity-40 saturate-0 transition duration-500 ease-[var(--ease-out-quint)] sm:p-6"
+          />
+          <span className="absolute left-4 top-4 inline-flex items-center rounded-full border border-foreground/15 bg-white/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/70 backdrop-blur sm:left-6 sm:top-6">
+            {comingSoonLabel}
+          </span>
+        </div>
+        <div className="pt-6">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{comingSoonLabel}</p>
+          <h3 className="mt-2 font-display text-xl font-medium text-foreground/80">{brand.name}</h3>
+          <p className="mt-3 min-h-[48px] text-sm leading-[1.5] text-muted-foreground">
+            {localized(brand.tagline, locale)}
+          </p>
+        </div>
+      </article>
+    );
+  }
 
   function openBrand() {
     router.push(href);

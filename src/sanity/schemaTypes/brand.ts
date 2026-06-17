@@ -14,6 +14,13 @@ export const brand = defineType({
     }),
     defineField({ name: "visible", type: "boolean", initialValue: true }),
     defineField({ name: "featured", type: "boolean", initialValue: false }),
+    defineField({
+      name: "comingSoon",
+      title: "Coming soon",
+      description: "Shows as an unnamed placeholder card with no detail page or catalog.",
+      type: "boolean",
+      initialValue: false,
+    }),
     defineField({ name: "orderRank", title: "Order", type: "number", initialValue: 100 }),
     defineField({ name: "logoText", title: "Logo text fallback", type: "string" }),
     defineField({ name: "tagline", type: "localizedString" }),

@@ -61,118 +61,100 @@ export const brands: Brand[] = [
     ],
     notes: [
       { en: "Catalog available in English and Polish.", pl: "Katalog dostepny w jezyku angielskim i polskim." },
-      { en: "Additional product groups can be added through Sanity.", pl: "Kolejne grupy produktowe mozna dodac w Sanity." },
+      { en: "Single-use design with no reprocessing between patients.", pl: "Konstrukcja jednorazowa, bez ponownej obrobki miedzy pacjentami." },
     ],
     website: "https://rosemedical.pl/",
     featured: true,
   },
   {
-    name: "EndoLine Select",
-    slug: "endoline-select",
-    logoText: "ENDOLINE",
+    name: "New endoscopy partner",
+    slug: "endoscopy-partner",
+    logoText: "Coming soon",
     tagline: {
-      en: "Procedure-ready endoscopy consumables",
-      pl: "Materialy endoskopowe gotowe do procedur",
+      en: "Additional single-use endoscopy lines, in evaluation.",
+      pl: "Kolejne jednorazowe linie endoskopowe, w trakcie oceny.",
     },
     description: {
-      en: "A placeholder provider profile for upcoming endoscopy consumables. It shows how Rose Medical can present another partner with clear product groups, catalog access, and procurement notes once final materials arrive.",
-      pl: "Przykladowy profil dostawcy nadchodzacych materialow endoskopowych. Pokazuje, jak Rose Medical moze zaprezentowac kolejnego partnera z grupami produktow, katalogiem i informacjami zakupowymi po otrzymaniu finalnych materialow.",
+      en: "We are evaluating additional endoscopy manufacturers to broaden the single-use range alongside Alton.",
+      pl: "Oceniamy kolejnych producentow endoskopowych, aby poszerzyc ofierte jednorazowa obok Alton.",
     },
-    image: "/assets/product-2.png",
+    image: "/assets/instruments-fan.png",
     catalog: {
       en: "/assets/alton-catalog-en.pdf",
       pl: "/assets/alton-catalog-pl.pdf",
     },
-    categories: [
-      { en: "Single-use procedure tools", pl: "Jednorazowe narzedzia zabiegowe" },
-      { en: "Cleaning and retrieval accessories", pl: "Akcesoria do czyszczenia i usuwania" },
-      { en: "Sampling accessories", pl: "Akcesoria do pobierania probek" },
-    ],
-    notes: [
-      { en: "Placeholder content ready to be replaced in Sanity.", pl: "Tresci przykladowe gotowe do podmiany w Sanity." },
-      { en: "Catalog links can point to partner-supplied PDFs.", pl: "Linki katalogow moga prowadzic do PDF-ow dostarczonych przez partnera." },
-    ],
+    categories: [],
+    notes: [],
     featured: true,
+    comingSoon: true,
   },
   {
-    name: "Steriscope Care",
-    slug: "steriscope-care",
-    logoText: "STERISCOPE",
+    name: "Sterile supplies partner",
+    slug: "sterile-supplies-partner",
+    logoText: "Coming soon",
     tagline: {
-      en: "Sterile support products for clinical teams",
-      pl: "Sterylne produkty wspierajace zespoly kliniczne",
+      en: "Sterile support products for clinical teams.",
+      pl: "Sterylne produkty wspierajace zespoly kliniczne.",
     },
     description: {
-      en: "A future brand placeholder for sterile support products. The page structure can hold certificates, procurement notes, and category-specific positioning without changing the frontend.",
-      pl: "Przykladowa przyszla marka dla sterylnych produktow wspierajacych. Struktura strony miesci certyfikaty, informacje zakupowe i pozycjonowanie kategorii bez zmian w frontendzie.",
-    },
-    image: "/assets/product-3.png",
-    catalog: {
-      en: "/assets/alton-catalog-en.pdf",
-      pl: "/assets/alton-catalog-pl.pdf",
-    },
-    categories: [
-      { en: "Sterile kits", pl: "Zestawy sterylne" },
-      { en: "Protective procedure accessories", pl: "Ochronne akcesoria zabiegowe" },
-      { en: "Clinical workflow supplies", pl: "Materialy do pracy klinicznej" },
-    ],
-    notes: [
-      { en: "Designed as a visible CMS-driven placeholder.", pl: "Widoczny placeholder zarzadzany docelowo przez CMS." },
-      { en: "Use this page to test future brand navigation.", pl: "Ta strona sluzy do testowania nawigacji przyszlych marek." },
-    ],
-    featured: true,
-  },
-  {
-    name: "MedSupply Partners",
-    slug: "medsupply-partners",
-    logoText: "MEDSUPPLY",
-    tagline: {
-      en: "Medical equipment sourcing and catalog support",
-      pl: "Pozyskiwanie sprzetu medycznego i wsparcie katalogowe",
-    },
-    description: {
-      en: "A placeholder provider for broader medical equipment sourcing. It demonstrates how Rose Medical can expand beyond one endoscopy-focused catalog while keeping the company brand central.",
-      pl: "Przykladowy dostawca dla szerszego pozyskiwania sprzetu medycznego. Pokazuje, jak Rose Medical moze wyjsc poza jeden katalog endoskopowy, zachowujac marke firmy w centrum.",
+      en: "A sterile-supplies manufacturer is under review to support clinical teams beyond endoscopy.",
+      pl: "Producent produktow sterylnych jest w trakcie oceny, aby wesprzec zespoly kliniczne poza endoskopia.",
     },
     image: "/assets/product-4.png",
     catalog: {
       en: "/assets/alton-catalog-en.pdf",
       pl: "/assets/alton-catalog-pl.pdf",
     },
-    categories: [
-      { en: "Medical equipment sourcing", pl: "Pozyskiwanie sprzetu medycznego" },
-      { en: "Partner catalog coordination", pl: "Koordynacja katalogow partnerow" },
-      { en: "Availability checks", pl: "Potwierdzanie dostepnosci" },
-    ],
-    notes: [
-      { en: "Future partner profile with editable CMS fields.", pl: "Profil przyszlego partnera z edytowalnymi polami CMS." },
-      { en: "Can be hidden in Sanity until approved.", pl: "Moze byc ukryty w Sanity do czasu zatwierdzenia." },
-    ],
+    categories: [],
+    notes: [],
     featured: true,
+    comingSoon: true,
+  },
+  {
+    name: "Medical equipment partner",
+    slug: "equipment-partner",
+    logoText: "Coming soon",
+    tagline: {
+      en: "Broader medical equipment sourcing.",
+      pl: "Szersze pozyskiwanie sprzetu medycznego.",
+    },
+    description: {
+      en: "We plan to extend the portfolio into wider medical equipment sourcing as the right manufacturers join.",
+      pl: "Planujemy rozszerzyc portfolio o szersze pozyskiwanie sprzetu medycznego, gdy dolacza odpowiedni producenci.",
+    },
+    image: "/assets/brush-cream.png",
+    catalog: {
+      en: "/assets/alton-catalog-en.pdf",
+      pl: "/assets/alton-catalog-pl.pdf",
+    },
+    categories: [],
+    notes: [],
+    featured: true,
+    comingSoon: true,
   },
 ];
 
 export const homePage: HomePageContent = {
   hero: {
     eyebrow: {
-      en: "Medical distribution with selective brand partnerships",
-      pl: "Dystrybucja medyczna oparta na selektywnych partnerstwach",
+      en: "Specialist medical distribution",
+      pl: "Specjalistyczna dystrybucja medyczna",
     },
     title: {
       en: "Trusted access to specialized medical products.",
       pl: "Sprawdzony dostep do specjalistycznych wyrobow medycznych.",
     },
     body: {
-      en: "Rose Medical Trade connects healthcare providers with carefully selected medical equipment, disposable products, and endoscopic accessories from verified manufacturers.",
-      pl: "Rose Medical Trade laczy placowki medyczne ze starannie wybranym sprzetem medycznym, produktami jednorazowymi i akcesoriami endoskopowymi od zweryfikowanych producentow.",
+      en: "We supply hospitals and clinics with carefully selected endoscopy accessories, single-use products, and medical equipment from verified manufacturers.",
+      pl: "Dostarczamy szpitalom i klinikom starannie wybrane akcesoria endoskopowe, produkty jednorazowe i sprzet medyczny od zweryfikowanych producentow.",
     },
     primaryCta: { en: "Discuss supply", pl: "Porozmawiajmy o dostawach" },
     secondaryCta: { en: "View brands", pl: "Zobacz marki" },
   },
   stats: [
-    { value: "EU", label: { en: "distribution focus", pl: "obszar dystrybucji" } },
-    { value: "2", label: { en: "language-ready site", pl: "wersje jezykowe" } },
-    { value: "CMS", label: { en: "editable product content", pl: "edytowalne tresci produktowe" } },
+    { value: "Alton", label: { en: "first partner brand, available now", pl: "pierwsza marka partnerska, dostepna od zaraz" } },
+    { value: "EU", label: { en: "distribution coverage", pl: "obszar dystrybucji" } },
+    { value: "EN / PL", label: { en: "bilingual buyer support", pl: "wsparcie dwujezyczne dla kupujacych" } },
   ],
   about: {
     eyebrow: { en: "Company", pl: "Firma" },
@@ -181,30 +163,30 @@ export const homePage: HomePageContent = {
       pl: "Rose Medical jest lacznikiem pomiedzy potrzebami klinicznymi a kwalifikowanymi producentami.",
     },
     body: {
-      en: "The site no longer centers on a single provider. It presents Rose Medical as the accountable partner: sourcing, explaining, and supplying product lines that fit real hospital and clinic workflows.",
-      pl: "Strona nie koncentruje sie juz na jednym dostawcy. Prezentuje Rose Medical jako odpowiedzialnego partnera: pozyskujacego, wyjasniajacego i dostarczajacego linie produktowe dopasowane do pracy szpitali i klinik.",
+      en: "Rose Medical Trade sources, explains, and supplies clinical product lines from qualified manufacturers, matched to real hospital and clinic workflows. Alton is our first partner brand, with more joining a deliberately curated portfolio.",
+      pl: "Rose Medical Trade pozyskuje, objasnia i dostarcza kliniczne linie produktowe od kwalifikowanych producentow, dopasowane do pracy szpitali i klinik. Alton jest naszym pierwszym partnerem, a kolejni dolaczaja do starannie budowanego portfolio.",
     },
   },
   features: [
     {
-      title: { en: "Selected manufacturers", pl: "Wybrani producenci" },
+      title: { en: "Vetted manufacturers", pl: "Zweryfikowani producenci" },
       body: {
-        en: "A focused portfolio makes it easier for buyers to evaluate product quality, availability, and fit.",
-        pl: "Skoncentrowane portfolio ulatwia kupujacym ocene jakosci, dostepnosci i dopasowania produktow.",
+        en: "We partner with manufacturers selectively, so every product line is one we can stand behind on quality, availability, and clinical fit.",
+        pl: "Wybieramy producentow selektywnie, aby za kazda linia produktowa staly jakosc, dostepnosc i dopasowanie kliniczne, ktore mozemy potwierdzic.",
       },
     },
     {
       title: { en: "Clear product access", pl: "Czytelny dostep do produktow" },
       body: {
-        en: "Catalogs, product categories, and direct inquiry paths are placed where purchasing teams expect them.",
-        pl: "Katalogi, kategorie produktow i bezposrednie zapytania sa umieszczone tam, gdzie oczekuja ich zespoly zakupowe.",
+        en: "Catalogs, product categories, and direct inquiry sit exactly where purchasing teams expect them, with no friction between need and quote.",
+        pl: "Katalogi, kategorie produktow i bezposrednie zapytania znajduja sie dokladnie tam, gdzie oczekuja ich zespoly zakupowe, bez zbednych krokow miedzy potrzeba a wycena.",
       },
     },
     {
-      title: { en: "Editable bilingual content", pl: "Edytowalne tresci dwujezyczne" },
+      title: { en: "Procurement you can plan around", pl: "Zaopatrzenie, ktore mozna planowac" },
       body: {
-        en: "English and Polish copy can be refined in Sanity as new materials arrive from partner brands.",
-        pl: "Tresci angielskie i polskie mozna dopracowywac w Sanity po otrzymaniu nowych materialow od marek partnerskich.",
+        en: "Predictable sourcing, straight answers on availability, and English/Polish support for teams across Poland and Europe.",
+        pl: "Przewidywalne zaopatrzenie, jasne odpowiedzi o dostepnosci oraz wsparcie po polsku i angielsku dla zespolow w Polsce i Europie.",
       },
     },
   ],
@@ -215,8 +197,8 @@ export const homePage: HomePageContent = {
       pl: "Portfolio marek przygotowane do rozwoju.",
     },
     body: {
-      en: "The first catalog remains available, while the structure is ready for additional providers, product pages, certificates, and marketing files.",
-      pl: "Pierwszy katalog pozostaje dostepny, a struktura jest gotowa na kolejnych dostawcow, strony produktowe, certyfikaty i materialy marketingowe.",
+      en: "Alton's single-use endoscopy range is available now. We add manufacturers selectively, so the catalog grows without diluting quality or clarity for buyers.",
+      pl: "Jednorazowa linia endoskopowa Alton jest dostepna od zaraz. Kolejnych producentow dodajemy selektywnie, aby katalog rosl bez utraty jakosci i przejrzystosci dla kupujacych.",
     },
   },
   catalogCta: {

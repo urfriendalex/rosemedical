@@ -59,7 +59,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           <input
             name="name"
             required
-            className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-foreground/30 focus:ring-4 focus:ring-emerald-900/10"
+            className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
           />
         </label>
         <label className="grid gap-2 text-sm font-medium text-foreground">
@@ -68,7 +68,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
             name="email"
             type="email"
             required
-            className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-foreground/30 focus:ring-4 focus:ring-emerald-900/10"
+            className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
           />
         </label>
       </div>
@@ -76,7 +76,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
         {copy.company}
         <input
           name="company"
-          className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-foreground/30 focus:ring-4 focus:ring-emerald-900/10"
+          className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
         />
       </label>
       <label className="grid gap-2 text-sm font-medium text-foreground">
@@ -85,7 +85,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           name="message"
           required
           rows={5}
-          className="resize-none rounded-[28px] border border-border bg-white px-5 py-4 text-base outline-none transition focus:border-foreground/30 focus:ring-4 focus:ring-emerald-900/10"
+          className="resize-none rounded-[28px] border border-border bg-white px-5 py-4 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
         />
       </label>
       <button
@@ -96,7 +96,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
         <Send aria-hidden size={16} />
         {state === "sending" ? "..." : copy.submit}
       </button>
-      {state === "success" ? <p className="text-sm text-emerald-800">{copy.success}</p> : null}
+      {state === "success" ? <p className="text-sm text-accent">{copy.success}</p> : null}
       {state === "error" ? <p className="text-sm text-red-700">{copy.error}</p> : null}
     </form>
   );

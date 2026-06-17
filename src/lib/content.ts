@@ -25,7 +25,8 @@ const siteQuery = groq`{
     categories,
     notes,
     website,
-    featured
+    featured,
+    "comingSoon": coalesce(comingSoon, false)
   }
 }`;
 
@@ -40,7 +41,8 @@ const brandQuery = groq`*[_type == "brand" && slug.current == $slug][0] {
   categories,
   notes,
   website,
-  featured
+  featured,
+  "comingSoon": coalesce(comingSoon, false)
 }`;
 
 export async function getSiteData(): Promise<SiteData> {
@@ -76,7 +78,7 @@ export async function getBrand(slug: string): Promise<Brand | null> {
 
 export async function getBrandSlugs(): Promise<string[]> {
   const data = await getSiteData();
-  return data.brands.map((brand) => brand.slug);
+  return data.brands.filter((brand) => !brand.comingSoon).map((brand) => brand.slug);
 }
 
 export function localized<T extends Record<Locale, string> | undefined>(
@@ -103,5 +105,6 @@ function normalizeBrand(brand: Brand): Brand {
     categories: brand.categories ?? [],
     notes: brand.notes ?? [],
     featured: Boolean(brand.featured),
+    comingSoon: Boolean(brand.comingSoon),
   };
 }

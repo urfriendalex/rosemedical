@@ -39,6 +39,7 @@ export type Brand = {
   notes: Array<LocalizedString>;
   website?: string;
   featured: boolean;
+  comingSoon?: boolean;
 };
 
 export type HomePageContent = {

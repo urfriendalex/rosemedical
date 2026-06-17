@@ -5,8 +5,10 @@
   --foreground: oklch(0.18 0.01 100);
   --muted: oklch(0.93 0.005 100);
   --muted-foreground: oklch(0.45 0.01 100);
-  --surface: oklch(0.94 0.005 100);
-  --accent: oklch(0.55 0.12 155);
+  --surface: oklch(0.90 0.009 58);
+  --brand-teal: #0ab2ac;
+  --brand-ink: #262625;
+  --accent: var(--brand-teal);
   --accent-foreground: oklch(0.98 0 0);
   --border: oklch(0.88 0.005 100);
   --header-bg: oklch(0.25 0.01 100 / 0.85);
@@ -22,6 +24,8 @@
   --color-surface: var(--surface);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-teal: var(--brand-teal);
   --color-border: var(--border);
   --font-sans: var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -234,8 +238,8 @@ button:hover .masked-arrow .arrow-two {
 
 .benefit-grid {
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.55) 1px, transparent 1px),
-    linear-gradient(to right, rgba(255, 255, 255, 0.55) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.62) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.62) 1px, transparent 1px);
   background-position: 33.3333% 0, 66.6666% 0;
   background-repeat: no-repeat;
   background-size: 1px 100%, 1px 100%;
@@ -250,8 +254,8 @@ button:hover .masked-arrow .arrow-two {
   background: linear-gradient(
     to right,
     transparent 0%,
-    rgba(255, 255, 255, 0.55) 15%,
-    rgba(255, 255, 255, 0.55) 85%,
+    rgba(255, 255, 255, 0.62) 15%,
+    rgba(255, 255, 255, 0.62) 85%,
     transparent 100%
   );
 }
@@ -315,8 +319,8 @@ button:hover .masked-arrow .arrow-two {
     background-color 220ms var(--ease-out-quint);
 }
 
-.site-nav-shell:has(.site-nav-items.text-emerald-950) .site-nav-indicator {
-  background: rgb(6 63 57 / 0.08);
+.site-nav-shell:has(.site-nav-items.text-brand-ink) .site-nav-indicator {
+  background: rgb(10 178 172 / 0.08);
 }
 
 .site-nav-indicator[data-ready="true"] {
@@ -336,9 +340,9 @@ button:hover .masked-arrow .arrow-two {
     box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
   }
 
-  .site-nav-shell:has(.site-nav-items.text-emerald-950) .site-nav-toggle:hover {
-    background: rgb(6 63 57 / 0.06);
-    box-shadow: inset 0 0 0 1px rgb(6 63 57 / 0.08);
+  .site-nav-shell:has(.site-nav-items.text-brand-ink) .site-nav-toggle:hover {
+    background: rgb(10 178 172 / 0.06);
+    box-shadow: inset 0 0 0 1px rgb(10 178 172 / 0.08);
   }
 }
 
@@ -411,6 +415,9 @@ button:hover .masked-arrow .arrow-two {
    */
   .site-nav-items {
     order: 1;
+    /* Drive the collapse purely through `width` — never let the flex parent
+       shrink the row, or the width transition is bypassed and it jumps. */
+    flex: 0 0 auto;
     min-width: 0;
     width: var(--nav-natural-width, max-content);
     max-width: none;
@@ -534,6 +541,12 @@ button:hover .masked-arrow .arrow-two {
     transition-delay: 180ms;
   }
 
+  /* On uncollapse, let the staggered items land first, then reveal the pill —
+     wrapper → items → active highlight. (Initial load keeps the shorter delay.) */
+  .site-nav-shell[data-animate-items="true"]:not([data-menu-open="true"]) .site-nav-indicator[data-ready="true"] {
+    transition-delay: 380ms;
+  }
+
   .site-nav-shell[data-menu-open="true"] .site-nav-indicator,
   .site-nav-shell[data-menu-open="true"] .site-nav-indicator[data-ready="true"] {
     opacity: 0;
@@ -575,6 +588,7 @@ button:hover .masked-arrow .arrow-two {
     .site-nav-shell[data-animate-items="true"]:not([data-menu-open="true"]) .site-nav-item,
     .site-nav-shell[data-menu-open="true"] .site-nav-item {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 }
@@ -598,8 +612,8 @@ button:hover .masked-arrow .arrow-two {
 
   .site-nav-shell:not([data-menu-open="true"]) {
     transition:
-      width 220ms var(--ease-out-quint) 80ms,
-      height 220ms var(--ease-out-quint) 80ms,
+      width 280ms var(--ease-out-quint) 180ms,
+      height 280ms var(--ease-out-quint) 180ms,
       background-color 220ms var(--ease-out-quint),
       box-shadow 220ms var(--ease-out-quint);
   }
@@ -607,6 +621,7 @@ button:hover .masked-arrow .arrow-two {
   .site-nav-shell[data-menu-open="true"] {
     width: min(218px, calc(100vw - 2rem));
     height: auto;
+    gap: 10px;
   }
 
   .site-nav-items {
@@ -621,21 +636,23 @@ button:hover .masked-arrow .arrow-two {
     opacity: 1;
     pointer-events: auto;
     transition:
-      max-height 280ms var(--ease-out-quint),
-      opacity 180ms var(--ease-out-quint) 160ms;
+      max-height 300ms var(--ease-out-quint),
+      opacity 200ms var(--ease-out-quint) 60ms;
   }
 
   .site-nav-shell:not([data-menu-open="true"]) .site-nav-items {
     transition:
-      max-height 200ms var(--ease-out-quint),
-      opacity 120ms var(--ease-out-quint);
+      opacity 200ms var(--ease-out-quint),
+      max-height 300ms var(--ease-out-quint) 60ms;
   }
 
   .site-nav-item {
     width: 100%;
     opacity: 0;
+    transform: translateY(8px);
     transition:
-      opacity 200ms var(--ease-out-quint),
+      opacity 220ms var(--ease-out-quint),
+      transform 220ms var(--ease-out-quint),
       color 180ms ease;
   }
 
@@ -648,32 +665,34 @@ button:hover .masked-arrow .arrow-two {
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item {
     opacity: 1;
+    transform: translateY(0);
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(1) {
-    transition-delay: 200ms;
+    transition-delay: 160ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(2) {
-    transition-delay: 240ms;
+    transition-delay: 200ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(3) {
-    transition-delay: 280ms;
+    transition-delay: 240ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(4) {
-    transition-delay: 320ms;
+    transition-delay: 280ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(5) {
-    transition-delay: 360ms;
+    transition-delay: 320ms;
   }
 
   .site-nav-shell:not([data-menu-open="true"]) .site-nav-item {
     opacity: 0;
+    transform: translateY(8px);
+    transition-duration: 140ms;
     transition-delay: 0ms;
-    transition-duration: 120ms;
   }
 
   .site-nav-indicator {
@@ -689,11 +708,12 @@ button:hover .masked-arrow .arrow-two {
   .site-nav-shell:not([data-menu-open="true"]) .site-nav-indicator[data-ready="true"] {
     opacity: 0;
     transition-duration: 100ms;
+    transition-delay: 0ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-indicator[data-ready="true"] {
     opacity: 1;
-    transition-delay: 0ms;
+    transition-delay: 380ms;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -707,6 +727,7 @@ button:hover .masked-arrow .arrow-two {
 
     .site-nav-shell[data-menu-open="true"] .site-nav-item {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 
@@ -714,20 +735,42 @@ button:hover .masked-arrow .arrow-two {
     background-image: none;
   }
 
+  /* Mobile hero CTAs sit in a 50/50 row: a solid primary pill and an outline
+     secondary pill of equal weight. Content is centered and the primary's arrow
+     circle is shrunk so "Discuss supply" never crowds the label at half width. */
   .hero-primary-button,
   .hero-secondary-link {
     width: 100%;
-  }
-
-  .hero-primary-button {
-    justify-content: space-between;
-    padding-left: 1.5rem;
+    min-width: 0;
+    min-height: 50px;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0.875rem;
+    font-size: 0.8125rem;
+    white-space: nowrap;
   }
 
   .hero-secondary-link {
-    justify-content: space-between;
-    padding-left: 1.5rem;
-    padding-right: 1.125rem;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: 999px;
+    color: white;
+  }
+
+  .hero-primary-button .masked-arrow {
+    height: 26px;
+    width: 26px;
+  }
+
+  .hero-primary-button .masked-arrow svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hero-secondary-link:hover {
+      border-color: rgb(255 255 255 / 0.55);
+      opacity: 1;
+    }
   }
 
   .brand-carousel-track {
