@@ -7,10 +7,10 @@ export const revalidate = 120;
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getSiteData();
   return {
-    title: data.settings.title.en,
-    description: data.settings.description.en,
+    title: data.settings.title.pl,
+    description: data.settings.description.pl,
     alternates: {
-      canonical: "/",
+      canonical: "/pl",
       languages: {
         en: "/",
         pl: "/pl",
@@ -21,5 +21,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const data = await getSiteData();
-  return <HomePage data={data} locale="en" />;
+  return <HomePage data={data} locale="pl" />;
 }
