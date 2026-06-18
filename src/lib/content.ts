@@ -1,7 +1,12 @@
 import { groq } from "next-sanity";
 import { client, hasSanityConfig } from "@/sanity/client";
-import { brands as fallbackBrands, homePage, siteSettings } from "./fallback-content";
-import type { Brand, Locale, SiteData } from "./types";
+import {
+  brands as fallbackBrands,
+  homePage,
+  siteSettings,
+  uiStrings,
+} from "./fallback-content";
+import type { Brand, Locale, SiteData, UiStrings } from "./types";
 
 const siteQuery = groq`{
   "settings": *[_type == "siteSettings"][0] {
@@ -14,6 +19,7 @@ const siteQuery = groq`{
     footer
   },
   "home": *[_type == "homePage"][0],
+  "ui": *[_type == "uiStrings"][0],
   "brands": *[_type == "brand" && coalesce(visible, true) == true] | order(orderRank asc, name asc) {
     name,
     "slug": slug.current,
@@ -47,7 +53,7 @@ const brandQuery = groq`*[_type == "brand" && slug.current == $slug][0] {
 
 export async function getSiteData(): Promise<SiteData> {
   if (!hasSanityConfig) {
-    return { settings: siteSettings, home: homePage, brands: fallbackBrands };
+    return { settings: siteSettings, home: homePage, ui: uiStrings, brands: fallbackBrands };
   }
 
   try {
@@ -56,11 +62,24 @@ export async function getSiteData(): Promise<SiteData> {
     return {
       settings: data.settings ?? siteSettings,
       home: data.home ?? homePage,
+      ui: withUiFallback(data.ui),
       brands: data.brands?.length ? normalizeBrands(data.brands) : fallbackBrands,
     };
   } catch {
-    return { settings: siteSettings, home: homePage, brands: fallbackBrands };
+    return { settings: siteSettings, home: homePage, ui: uiStrings, brands: fallbackBrands };
   }
+}
+
+// Fill any interface labels the client hasn't set yet from the bundled defaults,
+// so a partially-edited Interface Labels document never renders blank buttons.
+function withUiFallback(ui: Partial<UiStrings> | undefined): UiStrings {
+  if (!ui) return uiStrings;
+  return {
+    hero: { ...uiStrings.hero, ...ui.hero },
+    header: { ...uiStrings.header, ...ui.header },
+    brandPage: { ...uiStrings.brandPage, ...ui.brandPage },
+    contactForm: { ...uiStrings.contactForm, ...ui.contactForm },
+  };
 }
 
 export async function getBrand(slug: string): Promise<Brand | null> {

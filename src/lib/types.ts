@@ -80,8 +80,44 @@ export type HomePageContent = {
   };
 };
 
+export type UiStrings = {
+  hero: {
+    distributionLabel: LocalizedString;
+    nextLabel: LocalizedString;
+    scrollLabel: LocalizedString;
+    prevSlideAria: LocalizedString;
+    comingSoonEyebrow: LocalizedString;
+    comingSoonTitle: LocalizedString;
+    /** Use {brand} as the placeholder for the brand name. */
+    portfolioAccessTitle: LocalizedString;
+  };
+  header: {
+    menuLabel: LocalizedString;
+  };
+  brandPage: {
+    backToBrands: LocalizedString;
+    downloadCatalog: LocalizedString;
+    askAvailability: LocalizedString;
+    productCategories: LocalizedString;
+    notesTitle: LocalizedString;
+    nextBrand: LocalizedString;
+    browseNextProvider: LocalizedString;
+  };
+  contactForm: {
+    name: LocalizedString;
+    email: LocalizedString;
+    company: LocalizedString;
+    message: LocalizedString;
+    submit: LocalizedString;
+    sending: LocalizedString;
+    success: LocalizedString;
+    error: LocalizedString;
+  };
+};
+
 export type SiteData = {
   settings: SiteSettings;
   home: HomePageContent;
+  ui: UiStrings;
   brands: Brand[];
 };

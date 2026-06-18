@@ -1,4 +1,4 @@
-import type { Brand, HomePageContent, SiteSettings } from "./types";
+import type { Brand, HomePageContent, SiteSettings, UiStrings } from "./types";
 
 export const siteSettings: SiteSettings = {
   title: {
@@ -215,6 +215,52 @@ export const homePage: HomePageContent = {
     body: {
       en: "Use the form for product availability, catalog requests, and new manufacturer introductions.",
       pl: "Skorzystaj z formularza w sprawie dostepnosci produktow, katalogow oraz nowych producentow.",
+    },
+  },
+};
+
+export const uiStrings: UiStrings = {
+  hero: {
+    distributionLabel: {
+      en: "Selected Medical Distribution",
+      pl: "Selektywna Dystrybucja Medyczna",
+    },
+    nextLabel: { en: "Next", pl: "Dalej" },
+    scrollLabel: { en: "Scroll to Explore", pl: "Przewin, aby poznac" },
+    prevSlideAria: { en: "Previous slide", pl: "Poprzedni slajd" },
+    comingSoonEyebrow: { en: "Coming soon", pl: "Wkrotce" },
+    comingSoonTitle: { en: "Joining the portfolio soon.", pl: "Wkrotce w portfolio." },
+    portfolioAccessTitle: {
+      en: "{brand} portfolio access.",
+      pl: "Dostep do portfolio {brand}.",
+    },
+  },
+  header: {
+    menuLabel: { en: "Menu", pl: "Menu" },
+  },
+  brandPage: {
+    backToBrands: { en: "Back to brands", pl: "Wroc do marek" },
+    downloadCatalog: { en: "Download catalog", pl: "Pobierz katalog" },
+    askAvailability: { en: "Ask about availability", pl: "Zapytaj o dostepnosc" },
+    productCategories: { en: "Product categories", pl: "Kategorie produktow" },
+    notesTitle: { en: "Notes", pl: "Informacje" },
+    nextBrand: { en: "Next brand", pl: "Nastepna marka" },
+    browseNextProvider: { en: "Browse next provider", pl: "Zobacz kolejnego dostawce" },
+  },
+  contactForm: {
+    name: { en: "Name", pl: "Imie i nazwisko" },
+    email: { en: "Email", pl: "Email" },
+    company: { en: "Company", pl: "Firma" },
+    message: { en: "Message", pl: "Wiadomosc" },
+    submit: { en: "Send inquiry", pl: "Wyslij zapytanie" },
+    sending: { en: "...", pl: "..." },
+    success: {
+      en: "Thank you. Your message has been sent.",
+      pl: "Dziekujemy. Wiadomosc zostala wyslana.",
+    },
+    error: {
+      en: "The message could not be sent. Please email andrey.rosemedical@gmail.com directly.",
+      pl: "Nie udalo sie wyslac wiadomosci. Napisz bezposrednio na office@rosemedical.pl.",
     },
   },
 };
