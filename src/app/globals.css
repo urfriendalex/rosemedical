@@ -13,7 +13,9 @@
   --border: oklch(0.88 0.005 100);
   --header-bg: oklch(0.25 0.01 100 / 0.85);
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-  --brand-card-width: min(86vw, 390px);
+  /* Gentle iOS-style drawer curve — smoother than quint for size changes. */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --brand-card-width: min(calc(100vw - 2.5rem), 390px);
 }
 
 @theme inline {
@@ -264,6 +266,17 @@ button:hover .masked-arrow .arrow-two {
   width: var(--brand-card-width);
 }
 
+.brand-carousel-image {
+  aspect-ratio: 6 / 5;
+}
+
+.brand-carousel-copy {
+  display: flex;
+  min-height: 172px;
+  flex-direction: column;
+  padding-top: 1.25rem;
+}
+
 .brand-carousel-control {
   opacity: 0;
 }
@@ -277,9 +290,13 @@ button:hover .masked-arrow .arrow-two {
 
 .site-nav-shell {
   align-items: stretch;
+  /* Height is always auto (overrides Tailwind h-14 on mobile); it tracks the
+     items' animated max-height rather than being animated itself — animating
+     auto is impossible and caused the mobile collapse to jump. Defined here in
+     the base (non-@media) rule so it reliably hot-reloads. */
+  height: auto;
   transition:
     width 280ms var(--ease-out-quint),
-    height 280ms var(--ease-out-quint),
     background-color 220ms var(--ease-out-quint),
     box-shadow 220ms var(--ease-out-quint);
 }
@@ -365,21 +382,74 @@ button:hover .masked-arrow .arrow-two {
     color 180ms ease;
 }
 
-.site-menu-icon-close {
-  display: none;
+/* The three toggle glyphs are stacked so they can crossfade through a soft
+   blur ("gooey" swap) instead of hard-switching with display. */
+.site-menu-icon {
+  position: relative;
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.site-menu-icon svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.site-menu-icon-open,
+.site-menu-icon-close,
+.site-menu-icon-collapse {
+  opacity: 0;
+  filter: blur(5px);
+  transform: scale(0.6);
+  transition:
+    opacity 260ms var(--ease-out-quint),
+    filter 260ms var(--ease-out-quint),
+    transform 260ms var(--ease-out-quint);
+}
+
+/* Mobile: hamburger when closed, X (close) when the dropdown is open. */
+.site-menu-icon-open {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
 }
 
 .site-nav-shell[data-menu-open="true"] .site-menu-icon-open {
-  display: none;
+  opacity: 0;
+  filter: blur(5px);
+  transform: scale(0.6);
 }
 
 .site-nav-shell[data-menu-open="true"] .site-menu-icon-close {
-  display: block;
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-menu-icon-open,
+  .site-menu-icon-close,
+  .site-menu-icon-collapse {
+    transition-duration: 0ms;
+  }
 }
 
 @media (min-width: 1024px) {
   :root {
     --brand-card-width: min(31vw, 430px);
+  }
+
+  .brand-carousel-image {
+    aspect-ratio: 3 / 4;
+  }
+
+  .brand-carousel-copy {
+    min-height: 190px;
+    padding-top: 1.5rem;
   }
 
   .heading-offset {
@@ -388,6 +458,10 @@ button:hover .masked-arrow .arrow-two {
 }
 
 @media (min-width: 768px) {
+  .brand-carousel-image {
+    aspect-ratio: 4 / 5;
+  }
+
   .site-nav-shell {
     display: flex;
     flex-direction: row;
@@ -560,20 +634,40 @@ button:hover .masked-arrow .arrow-two {
     }
   }
 
+  /* Desktop starts expanded, so the toggle reads as "collapse" (chevron),
+     not "close" (X). The X is reserved for the mobile dropdown. */
+  /* Desktop starts expanded → chevron; collapsed → hamburger. The X is never
+     shown. The open-state selectors match the specificity of the base mobile
+     rules so they win by source order. */
   .site-menu-icon-open {
-    display: none;
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.6);
   }
 
-  .site-menu-icon-close {
-    display: block;
+  .site-menu-icon-close,
+  .site-nav-shell[data-menu-open="true"] .site-menu-icon-close {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.6);
+  }
+
+  .site-menu-icon-collapse {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
   }
 
   .site-nav-shell[data-menu-open="true"] .site-menu-icon-open {
-    display: block;
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
   }
 
-  .site-nav-shell[data-menu-open="true"] .site-menu-icon-close {
-    display: none;
+  .site-nav-shell[data-menu-open="true"] .site-menu-icon-collapse {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.6);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -601,58 +695,68 @@ button:hover .masked-arrow .arrow-two {
 
 @media (max-width: 767px) {
   :root {
-    --brand-card-width: min(82vw, 320px);
+    --brand-card-width: min(calc(100vw - 2.5rem), 350px);
   }
 
+  /*
+   * Height is intentionally left as `auto` (never animated) — it simply tracks
+   * the items' max-height, which IS animated. Animating the shell height
+   * directly is impossible (auto isn't interpolable) and was the cause of the
+   * collapse "jump". Now collapse mirrors expand exactly.
+   */
   .site-nav-shell {
     width: 110px;
-    height: 56px;
     border-radius: 28px;
   }
 
   .site-nav-shell:not([data-menu-open="true"]) {
     transition:
-      width 280ms var(--ease-out-quint) 180ms,
-      height 280ms var(--ease-out-quint) 180ms,
-      background-color 220ms var(--ease-out-quint),
-      box-shadow 220ms var(--ease-out-quint);
+      width 420ms var(--ease-drawer) 120ms,
+      row-gap 360ms var(--ease-drawer) 40ms,
+      background-color 320ms var(--ease-out-quint),
+      box-shadow 320ms var(--ease-out-quint);
   }
 
   .site-nav-shell[data-menu-open="true"] {
     width: min(218px, calc(100vw - 2rem));
-    height: auto;
-    gap: 10px;
+    row-gap: 10px;
+    transition:
+      width 460ms var(--ease-drawer),
+      row-gap 460ms var(--ease-drawer),
+      background-color 320ms var(--ease-out-quint),
+      box-shadow 320ms var(--ease-out-quint);
   }
 
   .site-nav-items {
     width: 100%;
+    max-height: 0;
     transition:
-      max-height 280ms var(--ease-out-quint),
-      opacity 160ms var(--ease-out-quint);
+      max-height 400ms var(--ease-drawer) 40ms,
+      opacity 240ms var(--ease-out-quint);
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-items {
-    max-height: 280px;
+    max-height: var(--nav-natural-height, 320px);
     opacity: 1;
     pointer-events: auto;
     transition:
-      max-height 300ms var(--ease-out-quint),
-      opacity 200ms var(--ease-out-quint) 60ms;
+      max-height 460ms var(--ease-drawer),
+      opacity 260ms var(--ease-out-quint) 90ms;
   }
 
   .site-nav-shell:not([data-menu-open="true"]) .site-nav-items {
     transition:
-      opacity 200ms var(--ease-out-quint),
-      max-height 300ms var(--ease-out-quint) 60ms;
+      max-height 420ms var(--ease-drawer) 40ms,
+      opacity 240ms var(--ease-out-quint);
   }
 
   .site-nav-item {
     width: 100%;
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
     transition:
-      opacity 220ms var(--ease-out-quint),
-      transform 220ms var(--ease-out-quint),
+      opacity 320ms var(--ease-out-quint),
+      transform 320ms var(--ease-out-quint),
       color 180ms ease;
   }
 
@@ -669,51 +773,53 @@ button:hover .masked-arrow .arrow-two {
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(1) {
-    transition-delay: 160ms;
+    transition-delay: 180ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(2) {
-    transition-delay: 200ms;
+    transition-delay: 250ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(3) {
-    transition-delay: 240ms;
+    transition-delay: 320ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(4) {
-    transition-delay: 280ms;
+    transition-delay: 390ms;
   }
 
   .site-nav-shell[data-menu-open="true"] .site-nav-item:nth-of-type(5) {
-    transition-delay: 320ms;
+    transition-delay: 460ms;
   }
 
   .site-nav-shell:not([data-menu-open="true"]) .site-nav-item {
     opacity: 0;
-    transform: translateY(8px);
-    transition-duration: 140ms;
+    transform: translateY(10px);
+    transition-duration: 200ms;
     transition-delay: 0ms;
   }
 
   .site-nav-indicator {
     transition:
-      transform 280ms var(--ease-out-quint),
-      width 240ms var(--ease-out-quint),
-      height 240ms var(--ease-out-quint),
-      opacity 200ms var(--ease-out-quint),
+      transform 340ms var(--ease-drawer),
+      width 300ms var(--ease-drawer),
+      height 300ms var(--ease-drawer),
+      opacity 260ms var(--ease-out-quint),
       background-color 220ms var(--ease-out-quint);
   }
 
   .site-nav-shell:not([data-menu-open="true"]) .site-nav-indicator,
   .site-nav-shell:not([data-menu-open="true"]) .site-nav-indicator[data-ready="true"] {
     opacity: 0;
-    transition-duration: 100ms;
+    transition-duration: 140ms;
     transition-delay: 0ms;
   }
 
+  /* The reveal timing is driven by the JS `mobileIndicatorReady` timer (it
+     flips data-ready after the items have staggered in), so no extra CSS delay. */
   .site-nav-shell[data-menu-open="true"] .site-nav-indicator[data-ready="true"] {
     opacity: 1;
-    transition-delay: 380ms;
+    transition-delay: 0ms;
   }
 
   @media (prefers-reduced-motion: reduce) {

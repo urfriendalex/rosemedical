@@ -90,11 +90,11 @@ export function BrandRailCarousel({ brands, locale }: { brands: Brand[]; locale:
   }, [isDesktop]);
 
   return (
-    <section id="brands" className="bg-white px-5 py-28 sm:px-8 lg:px-12 lg:py-32">
+    <section id="brands" className="bg-white px-5 py-16 sm:px-8 sm:py-28 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-[1664px]">
-        <div className="grid gap-12 lg:grid-cols-[324px_1fr] lg:gap-[11px]">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-[324px_1fr] lg:gap-[11px]">
           <div>
-            <div className="mb-14 flex gap-8 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+            <div className="mb-8 flex gap-8 text-[11px] uppercase tracking-[0.22em] text-muted-foreground sm:mb-14">
               <span>Portfolio</span>
               <span>{locale === "en" ? "Brands" : "Marki"}</span>
             </div>
@@ -204,7 +204,7 @@ function BrandCarouselCard({
         className="brand-carousel-card group shrink-0 outline-none"
         aria-label={`${brand.name} — ${comingSoonLabel}`}
       >
-        <div className={`relative aspect-[3/4] overflow-hidden ${tone}`}>
+        <div className={`brand-carousel-image relative overflow-hidden ${tone}`}>
           <Image
             src={brand.image}
             alt=""
@@ -216,12 +216,13 @@ function BrandCarouselCard({
             {comingSoonLabel}
           </span>
         </div>
-        <div className="pt-6">
+        <div className="brand-carousel-copy">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{comingSoonLabel}</p>
           <h3 className="mt-2 font-display text-xl font-medium text-foreground/80">{brand.name}</h3>
           <p className="mt-3 min-h-[48px] text-sm leading-[1.5] text-muted-foreground">
             {localized(brand.tagline, locale)}
           </p>
+          <div className="mt-auto h-10 md:h-11" aria-hidden />
         </div>
       </article>
     );
@@ -243,7 +244,7 @@ function BrandCarouselCard({
       className="brand-carousel-card group shrink-0 cursor-pointer outline-none"
       aria-label={`${locale === "en" ? "Open brand" : "Otworz marke"} ${brand.name}`}
     >
-      <div className={`relative aspect-[3/4] overflow-hidden ${tone}`}>
+      <div className={`brand-carousel-image relative overflow-hidden ${tone}`}>
         <Image
           src={brand.image}
           alt={brand.name}
@@ -252,7 +253,7 @@ function BrandCarouselCard({
           className="object-contain p-4 transition duration-500 ease-[var(--ease-out-quint)] group-hover:scale-[1.035] sm:p-6"
         />
       </div>
-      <div className="pt-6">
+      <div className="brand-carousel-copy">
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{brand.logoText}</p>
         <h3 className="mt-2 font-display text-xl font-medium">{brand.name}</h3>
         <p className="mt-3 min-h-[48px] text-sm leading-[1.5] text-muted-foreground">

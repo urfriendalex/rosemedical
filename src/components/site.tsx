@@ -58,7 +58,7 @@ export function BrandPage({
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <SiteHeader data={data} locale={locale} />
+      <SiteHeader data={data} locale={locale} trackSections={false} />
       <section className="relative min-h-screen overflow-hidden bg-[#20211f] text-white">
         <MaskedImage
           src={brand.image}
@@ -206,7 +206,7 @@ function CompanySection({ data, locale }: { data: SiteData; locale: Locale }) {
 function BenefitsSection({ data, locale }: { data: SiteData; locale: Locale }) {
   const { home } = data;
   const images = [
-    "/assets/product-1.png",
+    "/assets/instruments-quad.png",
     "/assets/instruments-fan.png",
     "/assets/brush-cream.png",
   ];
@@ -236,16 +236,9 @@ function BenefitsSection({ data, locale }: { data: SiteData; locale: Locale }) {
           {home.features.map((feature, index) => (
             <article
               key={localized(feature.title, locale)}
-              className="flex min-h-[620px] flex-col gap-8 p-8 lg:p-10"
+              className="flex flex-col gap-8 p-8 md:min-h-[620px] lg:p-10"
             >
-              {index === 1 ? (
-                <BenefitImage
-                  src={images[index]}
-                  title={localized(feature.title, locale)}
-                  delay={index * 0.12}
-                />
-              ) : null}
-              <div className={index === 1 ? "mt-auto" : ""}>
+              <div className={index === 1 ? "md:order-2 md:mt-auto" : ""}>
                 <div className="mb-4 flex items-start gap-3">
                   <span className="mt-2 text-xs text-muted-foreground">
                     ({String(index + 1).padStart(2, "0")})
@@ -265,15 +258,13 @@ function BenefitsSection({ data, locale }: { data: SiteData; locale: Locale }) {
                   {localized(feature.body, locale)}
                 </AnimatedText>
               </div>
-              {index !== 1 ? (
-                <div className="mt-auto">
-                  <BenefitImage
-                    src={images[index]}
-                    title={localized(feature.title, locale)}
-                    delay={index * 0.12}
-                  />
-                </div>
-              ) : null}
+              <div className={index === 1 ? "md:order-1" : "md:mt-auto"}>
+                <BenefitImage
+                  src={images[index]}
+                  title={localized(feature.title, locale)}
+                  delay={index * 0.12}
+                />
+              </div>
             </article>
           ))}
         </div>

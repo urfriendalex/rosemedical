@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
-import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ChevronRight, Menu, X } from "lucide-react";
+import { type CSSProperties, type MouseEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Logo } from "./logo";
 import { localized } from "@/lib/content";
 import type { Locale, SiteData } from "@/lib/types";
@@ -12,7 +12,17 @@ const localePath = {
   pl: "/pl",
 };
 
-export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale }) {
+export function SiteHeader({
+  data,
+  locale,
+  trackSections = true,
+}: {
+  data: SiteData;
+  locale: Locale;
+  /** Section highlighting only makes sense on the landing page where the
+   *  in-page sections exist. Off for brand/detail pages. */
+  trackSections?: boolean;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState(data.settings.nav[0]?.href ?? "#company");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,9 +34,13 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
   const [animateDesktopItems, setAnimateDesktopItems] = useState(false);
   const [mobileIndicatorReady, setMobileIndicatorReady] = useState(false);
   const [navWidth, setNavWidth] = useState<number | null>(null);
+  const [navHeight, setNavHeight] = useState<number | null>(null);
   const localeNavKey = "#locale";
   const otherLocaleHref = locale === "en" ? "/pl" : "/";
   const basePath = localePath[locale];
+  // On the landing page the section links are plain in-page anchors; elsewhere
+  // they must point back to the landing page first.
+  const sectionBase = trackSections ? basePath : localePath[locale] || "/";
 
   useLayoutEffect(() => {
     const nav = navRef.current;
@@ -46,7 +60,14 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
       // re-renders) so the desktop nav can collapse/expand to an exact pixel
       // value — no dead-time, no clipping. scrollWidth stays correct even while
       // the row is clipped to width:0.
-      if (!isMobile) {
+      if (isMobile) {
+        // Same idea on mobile, but the row collapses vertically — animate
+        // max-height against the exact stacked height so collapse mirrors
+        // expand with no jump and no dead-time. scrollHeight stays correct even
+        // while clipped to 0 (items don't wrap, so it's stable in both widths).
+        const measuredH = navEl.scrollHeight;
+        setNavHeight((prev) => (prev === measuredH ? prev : measuredH));
+      } else {
         const measured = navEl.scrollWidth;
         setNavWidth((prev) => (prev === measured ? prev : measured));
       }
@@ -58,7 +79,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
         top: targetItem.offsetTop,
         width: targetItem.offsetWidth,
         height: targetItem.offsetHeight,
-        ready: isMobile ? menuOpen && mobileIndicatorReady : true,
+        ready: trackSections && (isMobile ? menuOpen && mobileIndicatorReady : true),
       });
     }
 
@@ -73,7 +94,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
       window.removeEventListener("resize", updateIndicator);
       resizeObserver.disconnect();
     };
-  }, [activeSection, hoveredHref, data.settings.nav, menuOpen, mobileIndicatorReady]);
+  }, [activeSection, hoveredHref, data.settings.nav, menuOpen, mobileIndicatorReady, trackSections]);
 
   useEffect(() => {
     if (!animateDesktopItems) return;
@@ -93,7 +114,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
       return;
     }
 
-    const timer = window.setTimeout(() => setMobileIndicatorReady(true), 400);
+    const timer = window.setTimeout(() => setMobileIndicatorReady(true), 540);
     return () => window.clearTimeout(timer);
   }, [menuOpen]);
 
@@ -113,6 +134,8 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
   }, []);
 
   useEffect(() => {
+    if (!trackSections) return;
+
     const sections = data.settings.nav
       .map((item) => document.getElementById(item.href.replace("#", "")))
       .filter((section): section is HTMLElement => Boolean(section));
@@ -143,7 +166,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, [data.settings.nav]);
+  }, [data.settings.nav, trackSections]);
 
   function handleMenuToggle() {
     setHoveredHref(null);
@@ -160,6 +183,20 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
     if (window.innerWidth < 768) setMenuOpen(false);
   }
 
+  function handleLogoClick(event: MouseEvent<HTMLAnchorElement>) {
+    const homePath = localePath[locale] || "/";
+    // Already home → smooth-scroll back to the hero. On any other page, let the
+    // link navigate to home normally (Next scrolls to the top on navigation).
+    if (window.location.pathname === homePath) {
+      event.preventDefault();
+      clickedSectionRef.current = null;
+      setActiveSection(data.settings.nav[0]?.href ?? "#company");
+      setHoveredHref(null);
+      if (window.innerWidth < 768) setMenuOpen(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
   function handleNavItemEnter(href: string) {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     setHoveredHref(href);
@@ -174,6 +211,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
       <div className="relative mx-auto h-14 max-w-[1664px]">
         <Link
           href={localePath[locale] || "/"}
+          onClick={handleLogoClick}
           className="group absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center"
           aria-label="Rose Medical home"
         >
@@ -203,6 +241,7 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
                 "--nav-indicator-width": `${indicator.width}px`,
                 "--nav-indicator-height": `${indicator.height}px`,
                 ...(navWidth != null ? { "--nav-natural-width": `${navWidth}px` } : {}),
+                ...(navHeight != null ? { "--nav-natural-height": `${navHeight}px` } : {}),
               } as CSSProperties
             }
             className={`site-nav-items grid w-full gap-1 overflow-hidden p-0 md:static md:flex md:flex-none md:gap-0 md:rounded-none ${
@@ -223,12 +262,12 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
                     itemRefs.current.delete(item.href);
                   }
                 }}
-                href={`${basePath}${item.href}`}
+                href={`${sectionBase}${item.href}`}
                 onClick={() => handleNavClick(item.href)}
                 onMouseEnter={() => handleNavItemEnter(item.href)}
-                data-active={activeSection === item.href}
+                data-active={trackSections && activeSection === item.href}
                 className={`site-nav-item px-4 md:px-5 md:py-2 ${
-                  activeSection === item.href ? "font-medium" : ""
+                  trackSections && activeSection === item.href ? "font-medium" : ""
                 }`}
               >
                 {localized(item.label, locale)}
@@ -261,8 +300,11 @@ export function SiteHeader({ data, locale }: { data: SiteData; locale: Locale })
             aria-controls="site-menu"
             className="site-nav-toggle relative z-[2] flex min-h-10 shrink-0 items-center gap-2 rounded-full px-4 py-2 font-medium max-md:order-first max-md:ml-auto"
           >
-            <Menu aria-hidden className="site-menu-icon-open h-4 w-4" />
-            <X aria-hidden className="site-menu-icon-close h-4 w-4" />
+            <span aria-hidden className="site-menu-icon">
+              <Menu className="site-menu-icon-open" />
+              <X className="site-menu-icon-close" />
+              <ChevronRight className="site-menu-icon-collapse" />
+            </span>
             <span>Menu</span>
           </button>
         </div>
