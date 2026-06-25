@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const display = Inter_Tight({
@@ -66,7 +67,10 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${display.variable} ${sans.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-background font-sans">{children}</body>
+      <body className="min-h-full bg-background font-sans">
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
