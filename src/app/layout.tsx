@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const display = Inter_Tight({
@@ -70,6 +71,7 @@ export default function RootLayout({
       <body className="min-h-full bg-background font-sans">
         {children}
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
