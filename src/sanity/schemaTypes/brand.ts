@@ -46,4 +46,22 @@ export const brand = defineType({
     }),
     defineField({ name: "website", type: "url" }),
   ],
+  orderings: [
+    {
+      title: "Display order",
+      name: "orderRankAsc",
+      by: [
+        { field: "orderRank", direction: "asc" },
+        { field: "name", direction: "asc" },
+      ],
+    },
+  ],
+  preview: {
+    select: { title: "name", tagline: "tagline.en", media: "image", comingSoon: "comingSoon" },
+    prepare: ({ title, tagline, media, comingSoon }) => ({
+      title,
+      subtitle: comingSoon ? "Coming soon" : tagline,
+      media,
+    }),
+  },
 });

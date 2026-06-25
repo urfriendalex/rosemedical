@@ -78,7 +78,7 @@ export function BrandPage({
                 href={`${localePath[locale]}/#brands`}
                 className="text-sm font-medium text-white/72 transition hover:text-white"
               >
-                {locale === "en" ? "Back to brands" : "Wroc do marek"}
+                {localized(data.ui.brandPage.backToBrands, locale)}
               </Link>
               <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/60">
                 {brand.logoText}
@@ -95,7 +95,7 @@ export function BrandPage({
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:pb-1">
               <a className="hero-primary-button" href={brand.catalog[locale]}>
-                {locale === "en" ? "Download catalog" : "Pobierz katalog"}
+                {localized(data.ui.brandPage.downloadCatalog, locale)}
                 <span
                   className="hero-primary-icon masked-arrow axis-y"
                   aria-hidden
@@ -108,9 +108,7 @@ export function BrandPage({
                 variant="secondary"
                 href={`${localePath[locale]}#contact`}
               >
-                {locale === "en"
-                  ? "Ask about availability"
-                  : "Zapytaj o dostepnosc"}
+                {localized(data.ui.brandPage.askAvailability, locale)}
               </AnimatedLink>
             </div>
           </div>
@@ -118,15 +116,17 @@ export function BrandPage({
       </section>
       <section className="mx-auto grid max-w-[1664px] gap-8 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:px-12">
         <InfoPanel
-          title={locale === "en" ? "Product categories" : "Kategorie produktow"}
+          title={localized(data.ui.brandPage.productCategories, locale)}
           items={brand.categories.map((item) => localized(item, locale))}
         />
         <InfoPanel
-          title={locale === "en" ? "Notes" : "Informacje"}
+          title={localized(data.ui.brandPage.notesTitle, locale)}
           items={brand.notes.map((item) => localized(item, locale))}
         />
       </section>
-      {nextBrand ? <NextBrandCta brand={nextBrand} locale={locale} /> : null}
+      {nextBrand ? (
+        <NextBrandCta brand={nextBrand} locale={locale} ui={data.ui.brandPage} />
+      ) : null}
       <SiteFooter data={data} locale={locale} />
     </main>
   );
@@ -342,14 +342,22 @@ function ContactSection({ data, locale }: { data: SiteData; locale: Locale }) {
           </div>
         </div>
         <div className="rounded-[28px] border border-border bg-white/70 p-5 shadow-[0_30px_90px_rgba(10,178,172,0.08)] backdrop-blur sm:p-8">
-          <ContactForm locale={locale} />
+          <ContactForm locale={locale} labels={data.ui.contactForm} />
         </div>
       </div>
     </section>
   );
 }
 
-function NextBrandCta({ brand, locale }: { brand: Brand; locale: Locale }) {
+function NextBrandCta({
+  brand,
+  locale,
+  ui,
+}: {
+  brand: Brand;
+  locale: Locale;
+  ui: SiteData["ui"]["brandPage"];
+}) {
   return (
     <section className="px-5 pb-24 sm:px-8 lg:px-12">
       <Link
@@ -358,7 +366,7 @@ function NextBrandCta({ brand, locale }: { brand: Brand; locale: Locale }) {
       >
         <div className="p-8 sm:p-10 lg:p-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/55">
-            {locale === "en" ? "Next brand" : "Nastepna marka"}
+            {localized(ui.nextBrand, locale)}
           </p>
           <h2 className="mt-6 max-w-3xl text-balance font-display text-[clamp(2.35rem,10vw,6.5rem)] font-medium leading-[1.04] tracking-[-0.045em] sm:leading-[0.95] sm:tracking-[-0.052em]">
             {brand.name}
@@ -367,9 +375,7 @@ function NextBrandCta({ brand, locale }: { brand: Brand; locale: Locale }) {
             {localized(brand.tagline, locale)}
           </p>
           <span className="mt-9 inline-flex min-h-12 items-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-medium text-brand-ink">
-            {locale === "en"
-              ? "Browse next provider"
-              : "Zobacz kolejnego dostawce"}
+            {localized(ui.browseNextProvider, locale)}
             <span className="masked-arrow axis-x" aria-hidden>
               <ArrowRight className="arrow-one h-4 w-4" />
               <ArrowRight className="arrow-two h-4 w-4" />

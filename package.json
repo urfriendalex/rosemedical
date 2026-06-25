@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "sanity": "sanity"
+    "sanity": "sanity",
+    "seed": "sanity exec scripts/seed.ts --with-user-token"
   },
   "dependencies": {
     "@sanity/vision": "^5.31.1",

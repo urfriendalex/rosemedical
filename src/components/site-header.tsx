@@ -305,7 +305,7 @@ export function SiteHeader({
               <X className="site-menu-icon-close" />
               <ChevronRight className="site-menu-icon-collapse" />
             </span>
-            <span>Menu</span>
+            <span>{localized(data.ui.header.menuLabel, locale)}</span>
           </button>
         </div>
       </div>

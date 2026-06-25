@@ -48,4 +48,7 @@ export const siteSettings = defineType({
     }),
     defineField({ name: "footer", title: "Footer text", type: "localizedText" }),
   ],
+  preview: {
+    prepare: () => ({ title: "Site settings" }),
+  },
 });

@@ -17,22 +17,12 @@ const localePath = {
 // per session, so a relaxed cadence reads as intentional rather than busy.
 const AUTOPLAY_MS = 7000;
 
-const heroFooter = {
-  en: ["Selected Medical Distribution", "Next", "Scroll to Explore"],
-  pl: ["Selektywna Dystrybucja Medyczna", "Dalej", "Przewin, aby poznac"],
-};
-
 type HeroSlide = {
   eyebrow: string;
   title: string;
   body: string;
   image: string;
   comingSoon?: boolean;
-};
-
-const comingSoonCopy = {
-  en: { eyebrow: "Coming soon", title: "Joining the portfolio soon." },
-  pl: { eyebrow: "Wkrotce", title: "Wkrotce w portfolio." },
 };
 
 export function HeroCarousel({
@@ -44,6 +34,7 @@ export function HeroCarousel({
   locale: Locale;
   brands: Brand[];
 }) {
+  const ui = data.ui.hero;
   const [active, setActive] = useState(0);
   const slides = useMemo<HeroSlide[]>(() => {
     const base = [
@@ -58,18 +49,18 @@ export function HeroCarousel({
     const brandSlides = brands.slice(0, 5).map((brand) =>
       brand.comingSoon
         ? {
-            eyebrow: comingSoonCopy[locale].eyebrow,
-            title: comingSoonCopy[locale].title,
+            eyebrow: localized(ui.comingSoonEyebrow, locale),
+            title: localized(ui.comingSoonTitle, locale),
             body: localized(brand.tagline, locale),
             image: brand.image,
             comingSoon: true,
           }
         : {
             eyebrow: brand.logoText,
-            title:
-              locale === "en"
-                ? `${brand.name} portfolio access.`
-                : `Dostep do portfolio ${brand.name}.`,
+            title: localized(ui.portfolioAccessTitle, locale).replace(
+              "{brand}",
+              brand.name,
+            ),
             body: localized(brand.tagline, locale),
             image: brand.image,
             comingSoon: false,
@@ -77,7 +68,7 @@ export function HeroCarousel({
     );
 
     return [...base, ...brandSlides].slice(0, 6);
-  }, [brands, data.home.hero, locale]);
+  }, [brands, data.home.hero, ui, locale]);
 
   const current = slides[active] ?? slides[0];
   const total = slides.length;
@@ -257,7 +248,7 @@ export function HeroCarousel({
               style={{ transform: "scaleX(0)" }}
             />
           </div>
-          <span className="hidden sm:inline">{heroFooter[locale][0]}</span>
+          <span className="hidden sm:inline">{localized(ui.distributionLabel, locale)}</span>
           <div className="flex items-center justify-between gap-6 sm:justify-start">
             <span className="inline-flex w-[56px] shrink-0 tabular-nums">
               <span className="text-white">{String(active + 1).padStart(2, "0")}</span> /{" "}
@@ -268,7 +259,7 @@ export function HeroCarousel({
               onClick={() => goTo(active + 1)}
               className="group inline-flex min-h-11 items-center gap-3 rounded-full border border-white/18 px-4 py-2 transition hover:border-white/36 hover:bg-white/10"
             >
-              {heroFooter[locale][1]}
+              {localized(ui.nextLabel, locale)}
               <span className="masked-arrow axis-x" aria-hidden>
                 <ArrowRight className="arrow-one h-4 w-4" />
                 <ArrowRight className="arrow-two h-4 w-4" />
@@ -278,7 +269,7 @@ export function HeroCarousel({
               type="button"
               onClick={() => goTo(active - 1)}
               className="inline-flex min-h-11 w-11 items-center justify-center rounded-full border border-white/18 transition hover:border-white/36 hover:bg-white/10"
-              aria-label={locale === "en" ? "Previous slide" : "Poprzedni slajd"}
+              aria-label={localized(ui.prevSlideAria, locale)}
             >
               <span className="masked-arrow axis-x-reverse" aria-hidden>
                 <ArrowLeft className="arrow-one h-4 w-4" />
@@ -286,7 +277,7 @@ export function HeroCarousel({
               </span>
             </button>
           </div>
-          <span className="hidden sm:inline">{heroFooter[locale][2]}</span>
+          <span className="hidden sm:inline">{localized(ui.scrollLabel, locale)}</span>
         </div>
       </div>
     </section>
