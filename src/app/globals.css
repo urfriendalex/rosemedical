@@ -841,9 +841,7 @@ button:hover .masked-arrow .arrow-two {
     background-image: none;
   }
 
-  /* Mobile hero CTAs sit in a 50/50 row: a solid primary pill and an outline
-     secondary pill of equal weight. Content is centered and the primary's arrow
-     circle is shrunk so "Discuss supply" never crowds the label at half width. */
+  /* Let translated labels wrap and give longer actions their own row. */
   .hero-primary-button,
   .hero-secondary-link {
     width: 100%;
@@ -853,7 +851,15 @@ button:hover .masked-arrow .arrow-two {
     gap: 0.5rem;
     padding: 0.75rem 0.875rem;
     font-size: 0.8125rem;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .hero-actions > a {
+    flex: 1 1 max-content;
+    width: auto;
+    max-width: 100%;
   }
 
   .hero-secondary-link {
@@ -938,5 +944,47 @@ button:hover .masked-arrow .arrow-two {
     filter: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* Localized content must be able to shrink inside nested grid and flex layouts. */
+.site-content {
+  overflow-wrap: anywhere;
+}
+
+.site-content :where(section, article, div, h1, h2, h3, p, a, span, li) {
+  min-width: 0;
+}
+
+.site-content :where(h1, h2, h3) {
+  hyphens: auto;
+}
+
+.hero-carousel {
+  min-height: max(720px, 100svh);
+}
+
+@media (min-width: 640px) {
+  .hero-carousel {
+    min-height: max(760px, 100svh);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-carousel {
+    min-height: max(820px, 100svh);
+  }
+}
+
+@media (max-width: 767px) {
+  .site-nav-item {
+    height: auto;
+    white-space: normal;
+    text-align: center;
+    padding-block: 0.625rem;
+  }
+
+  .site-content :where(a, button) {
+    max-width: 100%;
   }
 }

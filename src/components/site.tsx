@@ -27,7 +27,7 @@ export function HomePage({ data, locale }: { data: SiteData; locale: Locale }) {
     : brands;
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main lang={locale} className="site-content min-h-screen bg-background text-foreground">
       <SiteHeader data={data} locale={locale} />
       <HeroCarousel data={data} locale={locale} brands={featuredBrands} />
       <CompanySection data={data} locale={locale} />
@@ -57,7 +57,7 @@ export function BrandPage({
       : null;
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main lang={locale} className="site-content min-h-screen bg-background text-foreground">
       <SiteHeader data={data} locale={locale} trackSections={false} />
       <section className="relative min-h-screen overflow-hidden bg-[#20211f] text-white">
         <MaskedImage
@@ -174,7 +174,7 @@ function CompanySection({ data, locale }: { data: SiteData; locale: Locale }) {
             {home.features.map((feature, index) => (
               <article
                 key={localized(feature.title, locale)}
-                className="surface-card group p-8"
+                className="surface-card group p-5 sm:p-8"
               >
                 <ShieldCheck
                   className="mb-10 text-accent transition duration-300 group-hover:translate-y-[-3px]"
@@ -236,7 +236,7 @@ function BenefitsSection({ data, locale }: { data: SiteData; locale: Locale }) {
           {home.features.map((feature, index) => (
             <article
               key={localized(feature.title, locale)}
-              className="flex flex-col gap-8 p-8 md:min-h-[620px] lg:p-10"
+              className="flex flex-col gap-8 p-5 sm:p-8 md:min-h-[620px] lg:p-10"
             >
               <div className={index === 1 ? "md:order-2 md:mt-auto" : ""}>
                 <div className="mb-4 flex items-start gap-3">
