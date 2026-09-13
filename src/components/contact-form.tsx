@@ -49,46 +49,46 @@ export function ContactForm({
   return (
     <form onSubmit={onSubmit} className="grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm font-medium text-foreground">
+        <label className="grid min-w-0 gap-2 text-sm font-medium text-foreground">
           {copy.name}
           <input
             name="name"
             required
-            className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
+            className="min-w-0 w-full h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
           />
         </label>
-        <label className="grid gap-2 text-sm font-medium text-foreground">
+        <label className="grid min-w-0 gap-2 text-sm font-medium text-foreground">
           {copy.email}
           <input
             name="email"
             type="email"
             required
-            className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
+            className="min-w-0 w-full h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
           />
         </label>
       </div>
-      <label className="grid gap-2 text-sm font-medium text-foreground">
+      <label className="grid min-w-0 gap-2 text-sm font-medium text-foreground">
         {copy.company}
         <input
           name="company"
-          className="h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
+          className="min-w-0 w-full h-[52px] rounded-full border border-border bg-white px-5 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
         />
       </label>
-      <label className="grid gap-2 text-sm font-medium text-foreground">
+      <label className="grid min-w-0 gap-2 text-sm font-medium text-foreground">
         {copy.message}
         <textarea
           name="message"
           required
           rows={5}
-          className="resize-none rounded-[28px] border border-border bg-white px-5 py-4 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
+          className="min-w-0 w-full resize-none rounded-[28px] border border-border bg-white px-5 py-4 text-base outline-none transition focus:border-accent/35 focus:ring-4 focus:ring-accent/10"
         />
       </label>
       <button
         type="submit"
         disabled={state === "sending"}
-        className="inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-foreground px-6 text-sm font-semibold text-white transition hover:bg-foreground/90 disabled:cursor-wait disabled:opacity-60"
+        className="inline-flex min-h-[52px] py-3 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-sm font-semibold text-white transition hover:bg-foreground/90 disabled:cursor-wait disabled:opacity-60"
       >
-        <Send aria-hidden size={16} />
+        <Send aria-hidden size={16} className="shrink-0" />
         {state === "sending" ? copy.sending : copy.submit}
       </button>
       {state === "success" ? <p className="text-sm text-accent">{copy.success}</p> : null}

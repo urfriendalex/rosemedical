@@ -145,7 +145,7 @@ export function HeroCarousel({
 
   return (
     <section
-      className="relative h-svh min-h-[720px] w-full overflow-hidden bg-[#20211f] text-white sm:min-h-[760px] lg:min-h-[820px]"
+      className="hero-carousel relative w-full overflow-hidden bg-[#20211f] text-white"
       onMouseEnter={() => {
         hoveringRef.current = true;
         syncPaused();
@@ -189,7 +189,7 @@ export function HeroCarousel({
       <div className="absolute inset-0 bg-black/28" />
       <ProgressiveBlur />
       <div className="absolute inset-0 bg-gradient-to-t from-black/58 via-black/10 to-black/12" />
-      <div className="absolute inset-0 flex flex-col justify-end px-5 pb-7 pt-28 sm:px-8 sm:pb-10 md:px-12 md:pb-14">
+      <div className="relative flex min-h-[inherit] flex-col justify-end px-5 pb-7 pt-28 sm:px-8 sm:pb-10 md:px-12 md:pb-14">
         <div className="flex flex-col gap-5 sm:gap-7 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[920px]">
             <motion.p
@@ -210,7 +210,7 @@ export function HeroCarousel({
             </motion.p>
             <motion.h1
               key={`${active}-title`}
-              className="max-w-[14ch] text-balance font-display text-[clamp(2.1rem,8.5vw,3.3rem)] font-medium leading-[1.06] tracking-[-0.04em] text-white sm:max-w-[12ch] sm:text-[clamp(3.5rem,5.25vw,5.45rem)] sm:leading-[0.96] sm:tracking-[-0.046em] lg:max-w-[12ch]"
+              className="max-w-full text-balance font-display text-[clamp(2.1rem,8.5vw,3.3rem)] font-medium leading-[1.06] tracking-[-0.04em] text-white sm:max-w-[12ch] sm:text-[clamp(3.5rem,5.25vw,5.45rem)] sm:leading-[0.96] sm:tracking-[-0.046em] lg:max-w-[12ch]"
               initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.78, ease: [0.22, 1, 0.36, 1] }}
@@ -228,7 +228,7 @@ export function HeroCarousel({
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:flex sm:shrink-0 sm:flex-row lg:items-center lg:gap-5 lg:pb-1">
+          <div className="hero-actions flex flex-wrap gap-3 sm:flex sm:shrink-0 sm:flex-row lg:items-center lg:gap-5 lg:pb-1">
             <AnimatedLink href={`${localePath[locale]}#contact`} variant="primary">
               {localized(data.home.hero.primaryCta, locale)}
             </AnimatedLink>
